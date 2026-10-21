@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizaj & Temperament Systems - Unani Natural Medicine</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Temperament Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7f7',
+                            100: '#e0efef',
+                            600: '#0f766e',
+                            700: '#0f5156',
+                            800: '#114247',
+                            900: '#0d2d31',
+                        },
+                        amber: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        sanguine: '#e11d48',
+                        choleric: '#ea580c',
+                        melancholic: '#4f46e5',
+                        phlegmatic: '#0284c7',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.7);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+        }
+        .tab-active {
+            border-bottom: 3px solid #0f766e;
+            color: #0f766e;
+            font-weight: 700;
+        }
+        .dark .tab-active {
+            border-bottom: 3px solid #2dd4bf;
+            color: #2dd4bf;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased selection:bg-brand-600 selection:text-white transition-colors duration-200">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-teal-500 flex items-center justify-center text-white shadow-md shadow-brand-700/20">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400 block">Unani Medical Compendium</span>
+                        <h1 class="text-lg font-bold font-serif text-slate-900 dark:text-white leading-none">Mizaj & Temperament Systems</h1>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-4 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                    <a href="#overview" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Overview</a>
+                    <a href="#classification" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Classifications</a>
+                    <a href="#matrix" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Diagnostic Matrix</a>
+                    <a href="#calculator" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Calculator</a>
+                    <a href="#pharmacology" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Pharmacology</a>
+                    <a href="#age-dynamics" class="hover:text-brand-600 dark:hover:text-teal-400 px-2.5 py-2 transition-colors">Age Dynamics</a>
+                </nav>
+
+                <!-- Actions / Theme Toggle -->
+                <div class="flex items-center space-x-3">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+                    <a href="#calculator" class="hidden sm:inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition shadow-md shadow-brand-600/20">
+                        <i data-lucide="stethoscope" class="w-4 h-4"></i>
+                        <span>Start Assessment</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-gradient-to-b from-brand-900 via-brand-800 to-slate-900 text-white py-20 lg:py-28 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#2dd4bf_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs font-semibold mb-6">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Chapter 04: Principles of Natural Medicine</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold tracking-tight text-white leading-tight mb-6">
+                    Interactive Mizaj & Temperament Systems
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-300 font-light leading-relaxed mb-8">
+                    An authoritative digital synthesis of Greco-Arab (Unani) medicine. Explore Avicenna's equilibrium theories, humoral relationships, four-fold drug orders, age dynamics, and diagnostic assessments.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#calculator" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 inline-flex items-center space-x-2 transition transform hover:-translate-y-0.5">
+                        <i data-lucide="calculator" class="w-5 h-5"></i>
+                        <span>Mizaj Self-Assessment Calculator</span>
+                    </a>
+                    <a href="#pharmacology" class="bg-slate-800/80 hover:bg-slate-800 text-white font-semibold px-6 py-3.5 rounded-xl border border-slate-700 inline-flex items-center space-x-2 transition">
+                        <i data-lucide="pill" class="w-5 h-5"></i>
+                        <span>Explore Herbal Pharmacology</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- SECTION 1: CORE OVERVIEW & CONCEPTUAL FOUNDATIONS -->
+        <section id="overview" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Conceptual Foundations</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Definition of Mizaj (Avicenna Canon)</h3>
+            </div>
+
+            <!-- Avicenna Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i data-lucide="quote" class="w-8 h-8 text-brand-600 dark:text-teal-400 opacity-60"></i>
+                            <h4 class="text-xl font-serif font-bold text-slate-900 dark:text-white">Avicenna (Ibn Sina) Canon of Medicine</h4>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-base mb-6 italic">
+                            "Elements are divided into minute particles and when the qualities of these particles act and react with one another then a new pattern of qualities emerges, which are evenly distributed throughout the particles of all elements. Hence, that pattern of uniformity is called Mizaj / Temperament."
+                        </p>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                            When the four primary elements (Air, Water, Fire, Earth) interact through their active/passive qualities (Heat, Cold, Moisture, Dryness), a state of equilibrium or specific pattern of uniformity develops to construct every physical matter and human humour.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span>Source: Canon of Medicine / Tibb-e-Nabwi</span>
+                        <span class="font-bold text-brand-600 dark:text-teal-400">Equilibrium & Pattern Uniformity</span>
+                    </div>
+                </div>
+
+                <!-- 4 Temperaments Quad Chart -->
+                <div class="lg:col-span-5 bg-slate-900 text-white p-6 rounded-2xl shadow-md border border-slate-800 flex flex-col justify-between">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center justify-between">
+                        <span>The 4 Primary Humoural Vectors</span>
+                        <i data-lucide="layers" class="w-4 h-4"></i>
+                    </h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Sanguineous -->
+                        <div class="bg-slate-800/80 p-4 rounded-xl border-l-4 border-sanguine">
+                            <span class="text-xs font-extrabold uppercase text-sanguine block">Damvi</span>
+                            <h5 class="font-bold text-white text-base">Sanguineous</h5>
+                            <p class="text-xs text-slate-300 mt-1"><strong>Quality:</strong> Hot & Moist</p>
+                            <p class="text-xs text-slate-400"><strong>Element:</strong> Air | <strong>Humour:</strong> Blood</p>
+                        </div>
+                        <!-- Choleric -->
+                        <div class="bg-slate-800/80 p-4 rounded-xl border-l-4 border-choleric">
+                            <span class="text-xs font-extrabold uppercase text-choleric block">Safravi</span>
+                            <h5 class="font-bold text-white text-base">Bilious / Choleric</h5>
+                            <p class="text-xs text-slate-300 mt-1"><strong>Quality:</strong> Hot & Dry</p>
+                            <p class="text-xs text-slate-400"><strong>Element:</strong> Fire | <strong>Humour:</strong> Yellow Bile</p>
+                        </div>
+                        <!-- Melancholic -->
+                        <div class="bg-slate-800/80 p-4 rounded-xl border-l-4 border-melancholic">
+                            <span class="text-xs font-extrabold uppercase text-melancholic block">Saudavi</span>
+                            <h5 class="font-bold text-white text-base">Melancholic</h5>
+                            <p class="text-xs text-slate-300 mt-1"><strong>Quality:</strong> Cold & Dry</p>
+                            <p class="text-xs text-slate-400"><strong>Element:</strong> Earth | <strong>Humour:</strong> Black Bile</p>
+                        </div>
+                        <!-- Phlegmatic -->
+                        <div class="bg-slate-800/80 p-4 rounded-xl border-l-4 border-phlegmatic">
+                            <span class="text-xs font-extrabold uppercase text-phlegmatic block">Balghmi</span>
+                            <h5 class="font-bold text-white text-base">Phlegmatic</h5>
+                            <p class="text-xs text-slate-300 mt-1"><strong>Quality:</strong> Cold & Moist</p>
+                            <p class="text-xs text-slate-400"><strong>Element:</strong> Water | <strong>Humour:</strong> Phlegm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CLASSIFICATION SYSTEMS -->
+        <section id="classification" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Systemic Taxonomy</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Classification of Mizaj & Causes of Imbalance</h3>
+            </div>
+
+            <!-- Flowchart Toggle Buttons -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Balanced Temperament Card -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">Mizaj-e-Muatadil</span>
+                            <h4 class="text-xl font-bold text-slate-900 dark:text-white">Balanced Temperament</h4>
+                        </div>
+                        <i data-lucide="scale" class="w-6 h-6 text-emerald-600"></i>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="p-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                            <h5 class="font-bold text-sm text-emerald-900 dark:text-emerald-300">1. Absolute Balanced (Muatadil Haqeqi)</h5>
+                            <p class="text-xs text-emerald-800 dark:text-emerald-400 mt-1">Theoretical state where four elements are quantitatively equal in power. Theoretical ideal.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h5 class="font-bold text-sm text-slate-900 dark:text-white">2. Physical Balanced (Muatadil Tabbi)</h5>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-2">Qualities are not strictly equal, but balanced according to nature and functional requirements across 4 patterns:</p>
+                            <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300 pl-2 list-disc list-inside">
+                                <li><strong>Species (Nui):</strong> Humans possess the overall most balanced temperament.</li>
+                                <li><strong>Race (Sinfi):</strong> Geographically adapted (e.g., Pakistani vs. Japanese climate patterns).</li>
+                                <li><strong>Individual (Shakhsi):</strong> Unique physiological baseline for each individual person.</li>
+                                <li><strong>Organ (Uzvi):</strong> Organ-specific balance (e.g., Bones are dry; Brain is moist).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imbalanced Temperament Card -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400">Mizaj-e-Ghair Muatadil</span>
+                            <h4 class="text-xl font-bold text-slate-900 dark:text-white">Imbalanced Temperament</h4>
+                        </div>
+                        <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-600"></i>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800">
+                            <h5 class="font-bold text-sm text-amber-900 dark:text-amber-300">A. Simple / Single (Ghair Muatadil Sada)</h5>
+                            <p class="text-xs text-amber-800 dark:text-amber-400 mt-1">
+                                Dominance of a single active (heat/cold) or passive (dryness/moistness) quality. Short-lived as simple imbalance quickly converts into compound states (e.g. excessive heat leads to dryness).
+                            </p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h5 class="font-bold text-sm text-slate-900 dark:text-white">B. Compound (Ghair Muatadil Murakab)</h5>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Dual quality dominance: Hot & Dry, Cold & Dry, Hot & Wet, or Cold & Wet.</p>
+                        </div>
+
+                        <!-- Causes of Imbalance Flowchart Box -->
+                        <div class="p-3 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-900/50">
+                            <h5 class="font-bold text-xs uppercase tracking-wider text-red-700 dark:text-red-400">Pathological Etiology of Imbalance</h5>
+                            <div class="grid grid-cols-2 gap-2 mt-2 text-xs">
+                                <div class="bg-white dark:bg-slate-900 p-2 rounded border border-red-100 dark:border-red-900/30">
+                                    <strong class="block text-slate-800 dark:text-slate-200">1. Without Morbid Matter (Sua'e Mizaj Sada):</strong> Environmental causes (e.g. walking in snow).
+                                </div>
+                                <div class="bg-white dark:bg-slate-900 p-2 rounded border border-red-100 dark:border-red-900/30">
+                                    <strong class="block text-slate-800 dark:text-slate-200">2. With Morbid Matter (Sua'e Mizaj Madi):</strong> Infiltration into organ tissue or accumulation in excretory channels.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Most Moderate Body Part Banner -->
+            <div class="mt-8 bg-gradient-to-r from-teal-800 to-brand-900 text-white p-6 rounded-2xl shadow-md flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-xs uppercase tracking-widest text-teal-300 font-bold">Anatomical Equilibrium Hierarchy</span>
+                    <h4 class="text-xl font-serif font-bold text-white">Most Moderate & Balanced Part of the Human Body</h4>
+                    <p class="text-xs text-slate-300 mt-1">Skin is unaffected by equal proportions of heat/cold or dry/moist water contact.</p>
+                </div>
+                <!-- Funnel Sequence -->
+                <div class="flex items-center space-x-2 text-xs font-semibold overflow-x-auto max-w-full pb-2 md:pb-0">
+                    <span class="bg-teal-700 px-3 py-1.5 rounded-lg whitespace-nowrap">Skin of Hand</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-teal-400 flex-shrink-0"></i>
+                    <span class="bg-teal-700 px-3 py-1.5 rounded-lg whitespace-nowrap">Central Palm</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-teal-400 flex-shrink-0"></i>
+                    <span class="bg-teal-700 px-3 py-1.5 rounded-lg whitespace-nowrap">Index Finger</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-teal-400 flex-shrink-0"></i>
+                    <span class="bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg whitespace-nowrap shadow-md">Terminal Phalanx Index Finger</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INTERACTIVE DIAGNOSTIC MATRIX -->
+        <section id="matrix" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Clinical Evaluation</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Diagnostic Matrix & Personality Profiles</h3>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 mb-6 overflow-x-auto">
+                <button onclick="switchMatrixTab('physical')" id="tab-physical" class="px-5 py-3 text-sm font-bold tab-active whitespace-nowrap transition">Physical Traits</button>
+                <button onclick="switchMatrixTab('physiological')" id="tab-physiological" class="px-5 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 whitespace-nowrap transition">Physiological Traits</button>
+                <button onclick="switchMatrixTab('psychological')" id="tab-psychological" class="px-5 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 whitespace-nowrap transition">Mind & Temperament Color</button>
+                <button onclick="switchMatrixTab('disease')" id="tab-disease" class="px-5 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 whitespace-nowrap transition">Disease Predispositions</button>
+            </div>
+
+            <!-- MATRIX CONTENT CONTAINERS -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+                
+                <!-- 1. Physical Traits Table -->
+                <div id="matrix-physical" class="matrix-tab-content">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                                <th class="p-3">Feature</th>
+                                <th class="p-3 text-sanguine">Sanguineous (Damvi)</th>
+                                <th class="p-3 text-choleric">Choleric (Safravi)</th>
+                                <th class="p-3 text-melancholic">Melancholic (Saudavi)</th>
+                                <th class="p-3 text-phlegmatic">Phlegmatic (Balghmi)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Hair</td>
+                                <td class="p-3">Thick, oily, wavy, abundant facial/body hair in men. Early center hair recession.</td>
+                                <td class="p-3">Balding common in men. Blonde or reddish tones. Thin & dry.</td>
+                                <td class="p-3">Often curly, thin, dark/brunette. Recession at temples. Less facial hair.</td>
+                                <td class="p-3">Light color/blondish. Soft, thin, sparse facial and body hair.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Face & Eyes</td>
+                                <td class="p-3">Oval/Heart shape, almond brown eyes, muscular cheeks, well-formed lips.</td>
+                                <td class="p-3">Square shape, wide forehead, brilliant fiery eyes, sharp angular features.</td>
+                                <td class="p-3">Oblong/Oval, high forehead, small active eyes, bony/sunken cheeks.</td>
+                                <td class="p-3">Round face, large watery eyes with thick lashes, full rounded dimpled cheeks.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Skin & Veins</td>
+                                <td class="p-3">Pink, rosy, blushing, soft, creamy smooth. Warm to touch. Veins moderately apparent.</td>
+                                <td class="p-3">Ruddy or bright yellow skin. Rough & dry. Warm on touch. Prominent veins.</td>
+                                <td class="p-3">Dull yellow or swarthy. Rough, cold, dry (leathery). Calluses & noticeable veins.</td>
+                                <td class="p-3">Delicate, soft, cool, moist skin. Veins less visible/hidden.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Physique & Frame</td>
+                                <td class="p-3">Moderate to large build, hourglass, strong status. Put on weight after 40.</td>
+                                <td class="p-3">Lean built, knobby joints, bones & tendons prominent. Thin frame.</td>
+                                <td class="p-3">Thin, bony, delicate, slender elongated build. Stiff muscle tone.</td>
+                                <td class="p-3">Medium to large frame, more fatty tissue than muscle, youthful covered bones.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Speech</td>
+                                <td class="p-3">Clear, moderate to loud.</td>
+                                <td class="p-3">Sharp, talkative, loud.</td>
+                                <td class="p-3">Fast, less vocal, soft.</td>
+                                <td class="p-3">Slow, soft, calm.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 2. Physiological Traits Table -->
+                <div id="matrix-physiological" class="matrix-tab-content hidden">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                                <th class="p-3">Function</th>
+                                <th class="p-3 text-sanguine">Sanguineous</th>
+                                <th class="p-3 text-choleric">Choleric</th>
+                                <th class="p-3 text-melancholic">Melancholic</th>
+                                <th class="p-3 text-phlegmatic">Phlegmatic</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Appetite & Thirst</td>
+                                <td class="p-3">Hearty (greater than digestion capacity). Likes gourmet food. Moderate to high thirst.</td>
+                                <td class="p-3">Sharp & quick, ravenous hunger. Fond of spicy/meat. Intense thirst.</td>
+                                <td class="p-3">Variable/poor appetite. Varies with emotional state. Prone to dehydration.</td>
+                                <td class="p-3">Slow, steady appetite. Low thirst level. Craving for sweets and starches.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Digestion & Stool</td>
+                                <td class="p-3">Good to moderate digestion. Stool well-formed, balanced tone.</td>
+                                <td class="p-3">Sharp catabolism. Gastritis/reflux affinity. Stool profuse, soft, strong odor.</td>
+                                <td class="p-3">Deficient secretions, variable digestion. Stool hard, dark, compact, porous.</td>
+                                <td class="p-3">Sluggish digestion, anabolism favored. Drowsiness post-meal. Stool thick & sticky.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Sweat & Sleep</td>
+                                <td class="p-3">Perspire easily. Balanced 7 hrs deep sleep. Snoring occasionally.</td>
+                                <td class="p-3">Profuse sweating in summer/stress. 5-6 hrs restless sleep, insomnia risk.</td>
+                                <td class="p-3">Scanty perspiration. Light sleeper, difficulty falling asleep, disturbed sleep.</td>
+                                <td class="p-3">Low sweating. Long sleep (8-9 hours). Tendency to oversleep.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Dream Themes</td>
+                                <td class="p-3">Pleasant, charming, romance, travel, games, enjoyment.</td>
+                                <td class="p-3">Military/violent, fire, red objects and heat.</td>
+                                <td class="p-3">Dark, moody, themes of grief, loss, fall, darkness.</td>
+                                <td class="p-3">Water, aquatic themes, rain, oceans, spiritual.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 3. Mind & Temperament Color Profile -->
+                <div id="matrix-psychological" class="matrix-tab-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Sanguine Card -->
+                        <div class="p-4 rounded-xl border-t-4 border-sanguine bg-slate-50 dark:bg-slate-800/50">
+                            <span class="text-xs font-extrabold uppercase text-sanguine">"The Talker"</span>
+                            <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Sanguine Color</h4>
+                            <p class="text-xs text-slate-500 mb-3">Response: Quick to react, short duration.</p>
+                            <div class="text-xs space-y-2">
+                                <p><strong>Strengths:</strong> Optimistic, extroverted, fun-loving, compassionate, creative, persuasive.</p>
+                                <p><strong>Weaknesses:</strong> Superficial, disorganized, forgetful, easily influenced, flirtatious.</p>
+                                <p class="text-slate-400"><strong>Famous:</strong> Bill Clinton, Magic Johnson, St. Peter.</p>
+                            </div>
+                        </div>
+
+                        <!-- Choleric Card -->
+                        <div class="p-4 rounded-xl border-t-4 border-choleric bg-slate-50 dark:bg-slate-800/50">
+                            <span class="text-xs font-extrabold uppercase text-choleric">"The Doer"</span>
+                            <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Choleric Color</h4>
+                            <p class="text-xs text-slate-500 mb-3">Response: Quick to react, long-lasting.</p>
+                            <div class="text-xs space-y-2">
+                                <p><strong>Strengths:</strong> Dynamic leader, resolute, confident, ambitious, goal-oriented, decisive.</p>
+                                <p><strong>Weaknesses:</strong> Dominating, impatient, easily angered, stubborn, holds grudges.</p>
+                                <p class="text-slate-400"><strong>Famous:</strong> FDR, Michael Jordan, Gen. Patton.</p>
+                            </div>
+                        </div>
+
+                        <!-- Melancholic Card -->
+                        <div class="p-4 rounded-xl border-t-4 border-melancholic bg-slate-50 dark:bg-slate-800/50">
+                            <span class="text-xs font-extrabold uppercase text-melancholic">"The Thinker"</span>
+                            <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Melancholic Color</h4>
+                            <p class="text-xs text-slate-500 mb-3">Response: Slow to react, very long duration.</p>
+                            <div class="text-xs space-y-2">
+                                <p><strong>Strengths:</strong> Analytical, perfectionist, reflective, artistic, self-disciplined, reliable.</p>
+                                <p><strong>Weaknesses:</strong> Moody, brooding, overly sensitive to criticism, pessimistic, indecisive.</p>
+                                <p class="text-slate-400"><strong>Famous:</strong> Abraham Lincoln, Beethoven, Johnny Depp.</p>
+                            </div>
+                        </div>
+
+                        <!-- Phlegmatic Card -->
+                        <div class="p-4 rounded-xl border-t-4 border-phlegmatic bg-slate-50 dark:bg-slate-800/50">
+                            <span class="text-xs font-extrabold uppercase text-phlegmatic">"The Peace Maker"</span>
+                            <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Phlegmatic Color</h4>
+                            <p class="text-xs text-slate-500 mb-3">Response: Slow to react, short duration.</p>
+                            <div class="text-xs space-y-2">
+                                <p><strong>Strengths:</strong> Peaceful, gentle, level-headed, diplomatic, dependable, good listener.</p>
+                                <p><strong>Weaknesses:</strong> Procrastinating, unmotivated, avoids confrontation, slow action.</p>
+                                <p class="text-slate-400"><strong>Famous:</strong> Keanu Reeves, Charlie Brown, Jim Halpert.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Disease Predispositions -->
+                <div id="matrix-disease" class="matrix-tab-content hidden">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                                <th class="p-3">Organ System</th>
+                                <th class="p-3 text-sanguine">Sanguineous</th>
+                                <th class="p-3 text-choleric">Choleric</th>
+                                <th class="p-3 text-melancholic">Melancholic</th>
+                                <th class="p-3 text-phlegmatic">Phlegmatic</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Nervous System</td>
+                                <td class="p-3">Congestive headache, dizziness, vertigo, hemiplegia, facial paralysis.</td>
+                                <td class="p-3">Bilious headache, stress, anxiety, mania, hysteria, insomnia, migraine.</td>
+                                <td class="p-3">Melancholic headache, severe anxiety, depression.</td>
+                                <td class="p-3">Phlegmatic headache, weak memory, epilepsy, infantile convulsions.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Respiratory</td>
+                                <td class="p-3">Catarrh, allergy, congestion, asthma, pleurisy.</td>
+                                <td class="p-3">Bronchitis, dry cough, hay fever.</td>
+                                <td class="p-3">Dry cough, chronic asthma, pneumonia.</td>
+                                <td class="p-3">Productive cough, sinusitis, sneezing, tonsillitis.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Cardiovascular</td>
+                                <td class="p-3">High BP, palpitations, capillary congestion, bleeding disorders.</td>
+                                <td class="p-3">Dehydration, palpitations, anemia, cardiomegaly.</td>
+                                <td class="p-3">Thrombosis, embolism, arteriosclerosis, angina.</td>
+                                <td class="p-3">Low BP, poor venous circulation, bradycardia.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Gastrointestinal</td>
+                                <td class="p-3">Intestinal sluggishness, piles, hemorrhoids, hepatitis.</td>
+                                <td class="p-3">Gastritis, hyperacidity, acid reflux, vomiting, dysentery.</td>
+                                <td class="p-3">Anorexia, severe constipation, flatulence, colic pain, renal stones.</td>
+                                <td class="p-3">Slow digestion, obesity, metabolic syndrome, dyspepsia, cholera.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 dark:text-white">Musculoskeletal & Skin</td>
+                                <td class="p-3">Gout, urticaria, folliculitis, blisters.</td>
+                                <td class="p-3">Arthritis, spur, rashes, dermatitis.</td>
+                                <td class="p-3">Osteoarthritis, osteoporosis, psoriasis, cracked skin, acne.</td>
+                                <td class="p-3">Rheumatoid arthritis, sciatica, cold skin edema.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: INTERACTIVE TEMPERAMENT SELF-ASSESSMENT CALCULATOR -->
+        <section id="calculator" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Diagnostic Tool</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Interactive Mizaj Assessment Calculator</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Questionnaire Form -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+                    <form id="quizForm" class="space-y-6">
+                        
+                        <!-- Question 1: Complexion & Skin -->
+                        <div>
+                            <label class="block font-bold text-sm text-slate-900 dark:text-white mb-2">1. Skin Complexion & Touch</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q1" value="sanguine" class="text-brand-600" required>
+                                    <span>Pink, rosy, soft, pleasantly warm</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q1" value="choleric" class="text-brand-600">
+                                    <span>Yellowish/Ruddy, rough, dry & hot</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q1" value="melancholic" class="text-brand-600">
+                                    <span>Dull yellow/dark, cold, rough & dry</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q1" value="phlegmatic" class="text-brand-600">
+                                    <span>Pale white, soft, smooth, cool & moist</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 2: Physique -->
+                        <div>
+                            <label class="block font-bold text-sm text-slate-900 dark:text-white mb-2">2. Body Build & Frame</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q2" value="sanguine" class="text-brand-600" required>
+                                    <span>Broad, muscular, well-formed joints</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q2" value="choleric" class="text-brand-600">
+                                    <span>Lean, prominent veins/bones, knobby joints</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q2" value="melancholic" class="text-brand-600">
+                                    <span>Slender, thin, stiff muscle tone</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q2" value="phlegmatic" class="text-brand-600">
+                                    <span>Soft, fleshy, rounded frame, hidden bones</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 3: Appetite & Digestion -->
+                        <div>
+                            <label class="block font-bold text-sm text-slate-900 dark:text-white mb-2">3. Digestion & Appetite</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q3" value="sanguine" class="text-brand-600" required>
+                                    <span>Hearty appetite, loves rich food</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q3" value="choleric" class="text-brand-600">
+                                    <span>Ravenous hunger, sharp, prone to acidity</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q3" value="melancholic" class="text-brand-600">
+                                    <span>Irregular/poor, sensitive digestive system</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q3" value="phlegmatic" class="text-brand-600">
+                                    <span>Slow, steady digestion, craving for sweets</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 4: Sleep Patterns -->
+                        <div>
+                            <label class="block font-bold text-sm text-slate-900 dark:text-white mb-2">4. Sleep Duration & Quality</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q4" value="sanguine" class="text-brand-600" required>
+                                    <span>Sound, moderate ~7 hours</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q4" value="choleric" class="text-brand-600">
+                                    <span>Short 5-6 hours, restless</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q4" value="melancholic" class="text-brand-600">
+                                    <span>Interrupted, insomnia prone, light sleeper</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q4" value="phlegmatic" class="text-brand-600">
+                                    <span>Deep, heavy, 8-9+ hours, oversleeps</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 5: Behavioral Tendency -->
+                        <div>
+                            <label class="block font-bold text-sm text-slate-900 dark:text-white mb-2">5. Psychological Disposition</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q5" value="sanguine" class="text-brand-600" required>
+                                    <span>Sociable, cheerful, adaptable, talkative</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q5" value="choleric" class="text-brand-600">
+                                    <span>Bold, resolute, quick-tempered, leader</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q5" value="melancholic" class="text-brand-600">
+                                    <span>Analytical, cautious, introverted, thoughtful</span>
+                                </label>
+                                <label class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center space-x-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                    <input type="radio" name="q5" value="phlegmatic" class="text-brand-600">
+                                    <span>Calm, peaceful, passive, patient, gentle</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                            <span>Calculate My Mizaj Profile</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Visualization & Result Box -->
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-md border border-slate-800">
+                        <h4 class="text-xs uppercase tracking-wider font-bold text-slate-400 mb-4 flex items-center justify-between">
+                            <span>Mizaj Distribution Breakdown</span>
+                            <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                        </h4>
+                        
+                        <!-- Canvas Chart -->
+                        <div class="relative h-56 w-full flex items-center justify-center">
+                            <canvas id="temperamentChart"></canvas>
+                        </div>
+
+                        <!-- Result Overview Box -->
+                        <div id="calculatorResult" class="mt-6 p-4 rounded-xl bg-slate-800/80 border border-slate-700 text-xs space-y-2">
+                            <p class="text-slate-400 text-center">Complete the assessment form on the left to compute your dominant Mizaj ratio.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: DRUG TEMPERAMENT & PHARMACOLOGY -->
+        <section id="pharmacology" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Mizaj-e-Adviyah</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Drug Pharmacology & Four Physical Orders</h3>
+            </div>
+
+            <!-- Avicenna's Drug Theory Accordion -->
+            <div class="mb-8 p-6 bg-slate-900 text-white rounded-2xl shadow-md border border-slate-800">
+                <h4 class="text-lg font-serif font-bold text-amber-400 mb-2">Avicenna's Principle of Balanced / Normal Natural Drugs</h4>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    A "balanced" drug does not mean its physical composition is identical to human tissue. Rather, when administered in prescribed doses, it interacts with the organism's vital force (Hararat-e-Ghariziyah) to elicit active constituents that maintain the individual's temperamental limits.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div class="p-3 bg-slate-800/90 rounded-lg border border-slate-700">
+                        <strong class="text-teal-400 block mb-1">1st Order Drugs</strong>
+                        <p class="text-slate-300">Dose-related effect only. Safe for repeated administration without toxicity.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/90 rounded-lg border border-slate-700">
+                        <strong class="text-amber-400 block mb-1">2nd Order Drugs</strong>
+                        <p class="text-slate-300">Potent active pharmacological action. Requires prescription supervision.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/90 rounded-lg border border-slate-700">
+                        <strong class="text-red-400 block mb-1">3rd & 4th Order Drugs</strong>
+                        <p class="text-slate-300">Toxic/Poisonous. Administered only in life-threatening emergencies with corrective agents (Corrigents).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Searchable Drug Database -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900 dark:text-white">Herbal & Medicinal Drug Pharmacopeia</h4>
+                        <p class="text-xs text-slate-500">Filter by Order or search by common/botanical name</p>
+                    </div>
+                    <!-- Controls -->
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <input type="text" id="drugSearch" onkeyup="filterDrugs()" placeholder="Search herb or drug..." class="px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs w-full sm:w-48 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                        <select id="drugOrderFilter" onchange="filterDrugs()" class="px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-brand-600">
+                            <option value="ALL">All Orders</option>
+                            <option value="Balanced">Balanced</option>
+                            <option value="1st Order">1st Order</option>
+                            <option value="2nd Order">2nd Order</option>
+                            <option value="3rd Order">3rd Order</option>
+                            <option value="4th Order">4th Order</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm" id="drugTable">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                                <th class="p-3">Order</th>
+                                <th class="p-3">Qualitative Type</th>
+                                <th class="p-3">Scientific Name</th>
+                                <th class="p-3">Common Name</th>
+                                <th class="p-3">Clinical Profile</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300" id="drugTableBody">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modern Chemical Interpretation Banner -->
+                <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                    <div class="p-3 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-200 dark:border-amber-900/30">
+                        <strong class="text-amber-800 dark:text-amber-400 block mb-1">Alkaloidal Compounds</strong>
+                        <p class="text-slate-600 dark:text-slate-400">Nitrogen-containing molecules → Classified as <strong>Hot & Dry</strong> in temperament.</p>
+                    </div>
+                    <div class="p-3 bg-blue-50 dark:bg-blue-950/20 rounded-xl border border-blue-200 dark:border-blue-900/30">
+                        <strong class="text-blue-800 dark:text-blue-400 block mb-1">Carboxyl & Terpenes</strong>
+                        <p class="text-slate-600 dark:text-slate-400">Carboxyl groups & Terpenic bodies → Exert <strong>Cooling</strong> physiological action.</p>
+                    </div>
+                    <div class="p-3 bg-red-50 dark:bg-red-950/20 rounded-xl border border-red-200 dark:border-red-900/30">
+                        <strong class="text-red-800 dark:text-red-400 block mb-1">Sulphur Derivatives</strong>
+                        <p class="text-slate-600 dark:text-slate-400">Sulphur containing active principles → Manifest <strong>Hot</strong> metabolic activity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: AGE DYNAMICS (GALEN THEORY) -->
+        <section id="age-dynamics" class="scroll-mt-24">
+            <div class="border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="text-xs uppercase tracking-widest font-extrabold text-brand-600 dark:text-teal-400">Lifespan Trajectory</h2>
+                <h3 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Temperament According to Age (Galen Theory)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Stage 1 -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300">Birth to 30 Yrs</span>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mt-3">San-e-Nmo (Growth)</h4>
+                        <p class="text-xs font-semibold text-brand-600 dark:text-teal-400 mt-1">Heat & Moistness Dominant</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                            Quantity of heat is greater than quality; moistness is strong. Water, Fire, and Air elements dominate growth.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                        <strong>Clinical Association:</strong> Infant moisture → Diarrhea, vomiting; Teen heat → Inflammatory disorders.
+                    </div>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">30 to 40 Yrs</span>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mt-3">San-e-Waqoof (Maturity)</h4>
+                        <p class="text-xs font-semibold text-amber-600 dark:text-amber-400 mt-1">Moderate / Dryness Inclined</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                            Peak human physiological powers. Fire and Soil elements in balanced moderation.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                        <strong>Clinical Association:</strong> Peak metabolic homeostasis & structural stability.
+                    </div>
+                </div>
+
+                <!-- Stage 3 -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">40 to 60 Yrs</span>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mt-3">San-e-Kaholet (Middle Age)</h4>
+                        <p class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mt-1">Coldness & Dryness Dominant</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                            Human vitality remains strong, but soil element begins dominance as heat wanes.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                        <strong>Clinical Association:</strong> Onset of joint stiffness and metabolic slowdown.
+                    </div>
+                </div>
+
+                <!-- Stage 4 -->
+                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">60+ Yrs to Death</span>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mt-3">San-e-Shayokh (Senility)</h4>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Severe Cold & Dryness</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                            Dryness markedly exceeds coldness. Soil element dominant; vital faculties decline.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                        <strong>Clinical Association:</strong> Osteoporosis, tissue desiccation, arterial stiffness.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-xs space-y-4 sm:space-y-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-700 flex items-center justify-center text-white">
+                    <i data-lucide="book" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <p class="text-white font-bold">Unani Natural Medicine Reference Edition</p>
+                    <p class="text-slate-500">Based on Chapter 4: Mizaj & Temperament Systems</p>
+                </div>
+            </div>
+            <p class="text-slate-500">Educational Interactive Clinical Compendium &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Theme Toggle Functionality
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // Tab Switching for Diagnostic Matrix
+        function switchMatrixTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.matrix-tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active classes
+            document.querySelectorAll('#matrix button').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-500');
+            });
+
+            // Show selected tab content
+            document.getElementById(`matrix-${tabName}`).classList.remove('hidden');
+            // Set active tab button
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-500');
+        }
+
+        // Drug Database Dataset
+        const drugDatabase = [
+            { order: "Balanced", type: "Average", sci: "Triticum vulgare", common: "Gandam (Wheat)", notes: "Nutritional staple, balanced for human consumption." },
+            { order: "Balanced", type: "Average", sci: "Pyrus cydonia", common: "Behi (Quince)", notes: "Cardiac & gastric tonic with neutral limits." },
+            { order: "Balanced", type: "Average", sci: "Adiantum capillus", common: "Persiaoshian (Maidenhair)", notes: "Expectorant, gentle respiratory balance." },
+            { order: "Balanced", type: "Average", sci: "Punica granatum", common: "Anar (Pomegranate)", notes: "Mild astringent, digestive stabilizer." },
+            { order: "Balanced", type: "Average", sci: "Cordia latifolia", common: "Sapistan", notes: "Demulcent in catarrh and bronchial affection." },
+            
+            { order: "1st Order", type: "Warm", sci: "Fumaria parviflora", common: "Shahtrah (Fumitory)", notes: "Blood purifier, skin alterative." },
+            { order: "1st Order", type: "Warm", sci: "Aloe vera", common: "Ailwa (Aloe)", notes: "Mild purgative, hepatic stimulant." },
+            { order: "1st Order", type: "Cold", sci: "Papaver somniferum", common: "Khaskhash (Poppy Seeds)", notes: "Mild sedative & nutritive cooling agent." },
+            { order: "1st Order", type: "Cold", sci: "Viola odorata", common: "Banafsha (Violet)", notes: "Antipyretic and pulmonary soothing agent." },
+            { order: "1st Order", type: "Dry", sci: "Glycyrrhiza glabra", common: "Mulathi (Licorice)", notes: "Demulcent, anti-inflammatory for throat." },
+            { order: "1st Order", type: "Dry", sci: "Crocus sativus", common: "Zafran (Saffron)", notes: "Exhilarant, cardiac and uterine stimulant." },
+            { order: "1st Order", type: "Moist", sci: "Lactuca scariola", common: "Kahu (Lettuce)", notes: "Sedative, hypnotics for light insomnia." },
+            { order: "1st Order", type: "Moist", sci: "Onosma bracteatum", common: "Gaozaban (Borage)", notes: "Cardiac tonic & nervine demulcent." },
+
+            { order: "2nd Order", type: "Warm", sci: "Ocimum basilicum", common: "Tulsi (Basil)", notes: "Antimicrobial, carminative, diaphoretic." },
+            { order: "2nd Order", type: "Warm", sci: "Swertia chirata", common: "Chiraita", notes: "Bitter tonic, potent febrifuge." },
+            { order: "2nd Order", type: "Cold", sci: "Plantago ovata", common: "Ispaghol (Psyllium)", notes: "Intestinal bulk laxative & demulcent." },
+            { order: "2nd Order", type: "Cold", sci: "Rosa damascena", common: "Gul-e-surkh (Rose)", notes: "Mild laxative, cardiac & brain tonic." },
+            { order: "2nd Order", type: "Dry", sci: "Myristica fragrans", common: "Javatri (Mace)", notes: "Aromatic stimulant & digestive aid." },
+            { order: "2nd Order", type: "Dry", sci: "Zingiber officinale", common: "Sonth (Dry Ginger)", notes: "Potent carminative, anti-emetic." },
+
+            { order: "3rd Order", type: "Warm", sci: "Cinnamomum cassia", common: "Darchini (Cinnamon)", notes: "Vascular stimulant & potent warming herb." },
+            { order: "3rd Order", type: "Warm", sci: "Nigella sativa", common: "Kalwanji (Black Seed)", notes: "Immunomodulator, powerful stimulant." },
+            { order: "3rd Order", type: "Cold", sci: "Atropa belladonna", common: "Luffah (Belladonna)", notes: "Potent anticholinergic. Toxic without dose control." },
+            { order: "3rd Order", type: "Dry", sci: "Allium sativum", common: "Lehsan (Garlic)", notes: "Antihypertensive, intense dry/warm action." },
+
+            { order: "4th Order", type: "Warm", sci: "Calotropis procera", common: "Shir madar (Milkweed)", notes: "Poisonous latex; strict medical supervision required." },
+            { order: "4th Order", type: "Warm", sci: "Croton tiglium", common: "Jamal ghota", notes: "Drastic drastic cathartic poison; requires corrigent." },
+            { order: "4th Order", type: "Cold/Dry", sci: "Datura stramonium", common: "Dhatura", notes: "Narcotic toxic alkaloid; life-threatening emergency use only." },
+            { order: "4th Order", type: "Cold/Dry", sci: "Aconitum ferox", common: "Bichnak (Aconite)", notes: "Severe cardiotoxin; strict Unani detox process mandatory." }
+        ];
+
+        // Populate Drug Table
+        function renderDrugTable(data) {
+            const tbody = document.getElementById('drugTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                let badgeClass = "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300";
+                if(item.order === "1st Order") badgeClass = "bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300";
+                if(item.order === "2nd Order") badgeClass = "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300";
+                if(item.order === "3rd Order") badgeClass = "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300";
+                if(item.order === "4th Order") badgeClass = "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300";
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold ${badgeClass}">${item.order}</span></td>
+                    <td class="p-3 font-semibold">${item.type}</td>
+                    <td class="p-3 font-serif italic">${item.sci}</td>
+                    <td class="p-3 font-bold text-slate-900 dark:text-white">${item.common}</td>
+                    <td class="p-3 text-slate-500 dark:text-slate-400">${item.notes}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Search & Filter Drugs
+        function filterDrugs() {
+            const query = document.getElementById('drugSearch').value.toLowerCase();
+            const orderFilter = document.getElementById('drugOrderFilter').value;
+
+            const filtered = drugDatabase.filter(item => {
+                const matchesSearch = item.sci.toLowerCase().includes(query) || item.common.toLowerCase().includes(query) || item.notes.toLowerCase().includes(query);
+                const matchesOrder = (orderFilter === "ALL") || (item.order === orderFilter);
+                return matchesSearch && matchesOrder;
+            });
+
+            renderDrugTable(filtered);
+        }
+
+        // Render initial drug database
+        renderDrugTable(drugDatabase);
+
+        // Chart.js Setup for Calculator Visualization
+        let chartInstance = null;
+        function initChart(dataScores = [25, 25, 25, 25]) {
+            const ctx = document.getElementById('temperamentChart').getContext('2d');
+            
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sanguineous (Damvi)', 'Choleric (Safravi)', 'Melancholic (Saudavi)', 'Phlegmatic (Balghmi)'],
+                    datasets: [{
+                        data: dataScores,
+                        backgroundColor: ['#e11d48', '#ea580c', '#4f46e5', '#0284c7'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize empty chart on load
+        initChart();
+
+        // Handle Questionnaire Calculation
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const scores = { sanguine: 0, choleric: 0, melancholic: 0, phlegmatic: 0 };
+
+            for (let value of formData.values()) {
+                if (scores[value] !== undefined) {
+                    scores[value]++;
+                }
+            }
+
+            const total = 5;
+            const percentages = [
+                Math.round((scores.sanguine / total) * 100),
+                Math.round((scores.choleric / total) * 100),
+                Math.round((scores.melancholic / total) * 100),
+                Math.round((scores.phlegmatic / total) * 100)
+            ];
+
+            // Update Doughnut Chart
+            initChart(percentages);
+
+            // Determine dominant temperament
+            const keys = ['sanguine', 'choleric', 'melancholic', 'phlegmatic'];
+            let maxKey = 'sanguine';
+            keys.forEach(k => {
+                if(scores[k] > scores[maxKey]) maxKey = k;
+            });
+
+            const profiles = {
+                sanguine: { title: "Sanguineous (Damvi) Dominance", color: "text-sanguine", element: "Air | Hot & Moist", rec: "Maintain moderate physical activity, avoid excessive heavy gourmet foods, and favor balanced cooling items." },
+                choleric: { title: "Choleric (Safravi) Dominance", color: "text-choleric", element: "Fire | Hot & Dry", rec: "Avoid spicy, greasy foods and intense heat exposure. Incorporate soothing, hydrating foods & mindfulness." },
+                melancholic: { title: "Melancholic (Saudavi) Dominance", color: "text-melancholic", element: "Earth | Cold & Dry", rec: "Prioritize moistening, warm foods, regular warm baths, gentle routine, and avoid prolonged isolation." },
+                phlegmatic: { title: "Phlegmatic (Balghmi) Dominance", color: "text-phlegmatic", element: "Water | Cold & Moist", rec: "Engage in active exercise, warm dry climate exposure, light diet, and avoid heavy sweets and excessive sleep." }
+            };
+
+            const resultObj = profiles[maxKey];
+            const resultDiv = document.getElementById('calculatorResult');
+            resultDiv.innerHTML = `
+                <div class="text-left space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Dominant Mizaj Diagnosis</span>
+                    <h5 class="text-base font-bold ${resultObj.color}">${resultObj.title}</h5>
+                    <p class="text-slate-300"><strong>Elemental Quality:</strong> ${resultObj.element}</p>
+                    <p class="text-slate-400 leading-relaxed"><strong>Lifestyle Recommendation:</strong> ${resultObj.rec}</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
